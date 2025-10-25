@@ -12,8 +12,6 @@ const Teams = () => {
       .then(data => {
         const results = data.results || data;
         setTeams(results);
-        console.log('Fetched teams:', results);
-        console.log('API endpoint:', apiUrl);
       });
   }, [apiUrl]);
 
@@ -32,7 +30,7 @@ const Teams = () => {
             </thead>
             <tbody>
               {teams.map((team, idx) => (
-                <tr key={idx}>
+                <tr key={team._id || team.name}>
                   <td>{idx + 1}</td>
                   <td>{team.name}</td>
                   <td>{Array.isArray(team.members) ? team.members.length : 0}</td>

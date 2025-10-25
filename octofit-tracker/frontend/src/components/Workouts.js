@@ -12,8 +12,6 @@ const Workouts = () => {
       .then(data => {
         const results = data.results || data;
         setWorkouts(results);
-        console.log('Fetched workouts:', results);
-        console.log('API endpoint:', apiUrl);
       });
   }, [apiUrl]);
 
@@ -32,7 +30,7 @@ const Workouts = () => {
             </thead>
             <tbody>
               {workouts.map((workout, idx) => (
-                <tr key={idx}>
+                <tr key={workout._id || workout.name || idx}>
                   <td>{idx + 1}</td>
                   <td>{workout.name}</td>
                   <td>{workout.description}</td>

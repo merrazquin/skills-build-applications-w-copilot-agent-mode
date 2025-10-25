@@ -12,8 +12,6 @@ const Activities = () => {
       .then(data => {
         const results = data.results || data;
         setActivities(results);
-        console.log('Fetched activities:', results);
-        console.log('API endpoint:', apiUrl);
       });
   }, [apiUrl]);
 
@@ -33,7 +31,7 @@ const Activities = () => {
             </thead>
             <tbody>
               {activities.map((activity, idx) => (
-                <tr key={idx}>
+                <tr key={activity._id}>
                   <td>{idx + 1}</td>
                   <td>{activity.activity}</td>
                   <td>{activity.duration}</td>

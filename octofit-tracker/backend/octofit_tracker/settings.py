@@ -33,7 +33,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jz9zeb*k_65=o3lok@2bb+azey11nm#nqpy2t82l7$j@k-^6yy'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    # For development only: fallback to a default key, but warn the user
+    import warnings
+    warnings.warn("DJANGO_SECRET_KEY environment variable not set. Using insecure default key for development only.")
+    SECRET_KEY = 'django-insecure-jz9zeb*k_65=o3lok@2bb+azey11nm#nqpy2t82l7$j@k-^6yy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -67,7 +72,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -114,10 +118,14 @@ DATABASES = {
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = False
+import os
 CORS_ALLOWED_ORIGINS = [
-    "https://opulent-sniffle-4q9w4grr9hqr-3000.app.github.dev",
-    "https://opulent-sniffle-4q9w4grr9hqr-8000.app.github.dev",
+    "http://localhost:3000",
 ]
+codespace_name = os.environ.get('CODESPACE_NAME')
+if codespace_name:
+    CORS_ALLOWED_ORIGINS.append(f"https://{codespace_name}-3000.app.github.dev")
+    CORS_ALLOWED_ORIGINS.append(f"https://{codespace_name}-8000.app.github.dev")
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = list(default_headers)
 CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']

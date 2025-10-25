@@ -6,16 +6,16 @@ const Users = () => {
   const apiUrl = codespace
     ? `https://${codespace}-8000.app.github.dev/api/users/`
     : '/api/users/';
-  console.log(`Env: ${codespace}`);
-  console.log(`API URL: ${apiUrl}`);
+  
+  
   useEffect(() => {
     fetch(apiUrl)
       .then(res => res.json())
       .then(data => {
         const results = data.results || data;
         setUsers(results);
-        console.log('Fetched users:', results);
-        console.log('API endpoint:', apiUrl);
+        
+        
       });
   }, [apiUrl]);
 
@@ -35,7 +35,7 @@ const Users = () => {
             </thead>
             <tbody>
               {users.map((user, idx) => (
-                <tr key={idx}>
+                <tr key={user._id || user.email}>
                   <td>{idx + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>

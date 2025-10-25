@@ -12,8 +12,6 @@ const Leaderboard = () => {
       .then(data => {
         const results = data.results || data;
         setLeaderboard(results);
-        console.log('Fetched leaderboard:', results);
-        console.log('API endpoint:', apiUrl);
       });
   }, [apiUrl]);
 
@@ -32,7 +30,7 @@ const Leaderboard = () => {
             </thead>
             <tbody>
               {leaderboard.map((entry, idx) => (
-                <tr key={idx}>
+                <tr key={entry._id || entry.team}>
                   <td>{idx + 1}</td>
                   <td>{entry.team}</td>
                   <td>{entry.points}</td>
