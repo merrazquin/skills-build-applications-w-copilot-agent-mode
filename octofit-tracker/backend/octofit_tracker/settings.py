@@ -1,3 +1,12 @@
+# Trust proxy headers for Codespaces
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# Django REST Framework: Allow any permission for all API endpoints
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
 """
 Django settings for octofit_tracker project.
 
@@ -10,7 +19,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
+import logging
+logging.basicConfig(level=logging.WARNING)
 from pathlib import Path
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -97,10 +110,16 @@ DATABASES = {
     }
 }
 
+
+
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://opulent-sniffle-4q9w4grr9hqr-3000.app.github.dev",
+    "https://opulent-sniffle-4q9w4grr9hqr-8000.app.github.dev",
+]
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_HEADERS = list(default_headers)
 CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
 
 

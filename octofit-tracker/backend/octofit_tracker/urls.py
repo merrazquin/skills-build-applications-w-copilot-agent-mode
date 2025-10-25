@@ -15,7 +15,9 @@ Including another URLconf
 """
 
 
+
 import os
+import logging
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
@@ -33,12 +35,9 @@ router.register(r'workouts', views.WorkoutViewSet)
 
 @api_view(['GET'])
 def api_root(request, format=None):
-    codespace_name = os.environ.get('CODESPACE_NAME')
-    if codespace_name:
-        base_url = f"https://{codespace_name}-8000.app.github.dev/"
-    else:
-        # fallback to request host
-        base_url = f"{request.scheme}://{request.get_host()}/"
+    # Log the host Django sees
+    logging.warning(f"Request host: {request.get_host()}")
+    base_url = f"{request.scheme}://{request.get_host()}/"
     return Response({
         'users': f"{base_url}api/users/",
         'teams': f"{base_url}api/teams/",
